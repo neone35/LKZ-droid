@@ -10,10 +10,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -33,10 +35,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.arturmaslov.lkz_droid.utils.Constants
 import com.arturmaslov.lkz_droid.utils.Constants.BASE_URL
+import com.arturmaslov.lkz_droid.viewmodel.WordViewModel
 import kotlinx.coroutines.CoroutineScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val wordVM: WordViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -60,7 +68,8 @@ class MainActivity : ComponentActivity() {
                                 .padding(innerPadding),
                         ) {
                             MainScreen(
-                                selectedTab = selectedTab
+                                selectedTab = selectedTab,
+                                wordVM = wordVM
                             )
                         }
                     }
@@ -72,11 +81,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(
-    selectedTab: Int
+    selectedTab: Int,
+    wordVM: WordViewModel
 ) {
     when (selectedTab) {
         0 -> OnlineTab()
-//        1 -> OfflineTab()
+        1 -> OfflineTab(wordVM)
     }
 }
 
@@ -120,14 +130,23 @@ fun OnlineTab() {
     }
 }
 
-//@Composable
-//fun OfflineTab(viewModel: WordViewModel = WordViewModel()) {
-//    val words = viewModel.savedWords.collectAsState(initial = emptyList())
-//
-//    LazyColumn(modifier = Modifier.fillMaxSize().padding(8.dp)) {
-//        items(words.value) { word ->
-//            Text(text = word, modifier = Modifier.padding(8.dp))
-//        }
-//    }
-//}
+@Composable
+fun OfflineTab(viewModel: WordViewModel) {
+    val words = viewModel.savedWords()
+
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+        itemsIndexed(words.value) { index, word ->
+            Row(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = word.word ?: Constants.EMPTY_STRING,
+                    modifier = Modifier.padding(4.dp)
+                )
+                Text(
+                    text = word.description ?: Constants.EMPTY_STRING,
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
+        }
+    }
+}
 

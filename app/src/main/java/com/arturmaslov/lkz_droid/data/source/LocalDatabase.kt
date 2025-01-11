@@ -1,4 +1,4 @@
-package com.arturmaslov.lkz_droid.data
+package com.arturmaslov.lkz_droid.data.source
 
 import androidx.room.Dao
 import androidx.room.Database
@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
+import com.arturmaslov.lkz_droid.data.model.WordEntity
 
 @Database(
     entities = [

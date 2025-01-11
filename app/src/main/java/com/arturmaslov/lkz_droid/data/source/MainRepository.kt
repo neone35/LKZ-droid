@@ -1,4 +1,6 @@
-package com.arturmaslov.lkz_droid.data
+package com.arturmaslov.lkz_droid.data.source
+
+import com.arturmaslov.lkz_droid.data.model.Word
 
 class MainRepository(
     private val mLocalDataSource: LocalDataSource

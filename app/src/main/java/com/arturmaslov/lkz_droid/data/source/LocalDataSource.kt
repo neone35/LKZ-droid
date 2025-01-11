@@ -1,5 +1,8 @@
-package com.arturmaslov.lkz_droid.data
+package com.arturmaslov.lkz_droid.data.source
 
+import com.arturmaslov.lkz_droid.data.model.Word
+import com.arturmaslov.lkz_droid.data.model.toDomainModel
+import com.arturmaslov.lkz_droid.data.model.toEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber

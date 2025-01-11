@@ -1,4 +1,4 @@
-package com.arturmaslov.lkz_droid.data
+package com.arturmaslov.lkz_droid.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
